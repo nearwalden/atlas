@@ -1,7 +1,7 @@
 # atlas parameters
 
 # where is the mongo instance
-MONGO_HOST = 'localhost'
+MONGO_HOST = 'frost.local'
 # MONGO_PORT = default
 
 # name of the yaml version of project info
