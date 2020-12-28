@@ -5,12 +5,13 @@ import yaml
 import os
 import params
 
-client = pymongo.MongoClient(params.MONGO_HOST)
 
 # import a project from the provided path
 
 # path should have "/" at end, add check for this later
-def import_proj (path):
+def import_proj (path, client=None):
+	if client == None:
+		client = pymongo.MongoClient(params.MONGO_HOST)
 	# check if path exists
 	if not os.path.exists(path):
 		return "Path doesn't exist"
@@ -21,16 +22,14 @@ def import_proj (path):
 			project_data = yaml.load(project_file, Loader=yaml.FullLoader)
 	else:
 		return "No project file in " + path
+	db = client[MONGO_DB]
 	# see if the project exists
-	dbs = client.list_databases()
-	if project_data['name'] in dbs:
-		if new:
-			return "Project already exists:  " + project_data.shortname
-	db = client[project_data['name']]
+	project = db.projects.find_one({'name': project_data['name']})
+	if project != None:
+		return "Project already exists:  " + project_data['name']
 	# write the project data
-	proj = db.project
-	proj.insert_one(project_data)
-	return "loaded project"
+	db.projects.insert_one(project_data)
+	return "imported project"
 	
 
 	
