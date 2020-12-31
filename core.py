@@ -19,6 +19,19 @@ ATLAS_DIR = "atlas/"
 # return a new client
 def mongo_client ():
     return pymongo.MongoClient(MONGO_HOST)
+    
+# return the atlas DB
+def atlas_db ():
+    client = mongo_client()
+    return client[MONGO_DB]
+    
+# check number of items
+def check_count (coll, name, count, db):
+    real_count = db[coll].count_documents({'name': name})
+    if real_count != count:
+        print ("Wrong number of items in " + coll + " with name=" + name + ": expected " + count + ", got " + real_count)
+        error()
+    return True
 
 
 
