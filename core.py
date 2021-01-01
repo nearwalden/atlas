@@ -1,6 +1,8 @@
 # atlas parameters
 
 import pymongo
+import os
+import yaml
 
 # where is the mongo instance
 # frost.local
@@ -24,6 +26,16 @@ def mongo_client ():
 def atlas_db ():
     client = mongo_client()
     return client[MONGO_DB]
+    
+def load_yaml (path):
+    if os.path.exists(path):
+        with open(path) as atlas_file:
+            data = yaml.load(atlas_file, Loader=yaml.FullLoader)
+            return data
+    else:
+        print ("No file in " + path)
+        return None
+
     
 # check number of items
 def check_count (coll, name, count, db):
