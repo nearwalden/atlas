@@ -4,5 +4,5 @@ import utils
 import pandas as p
 
 
-def file_path (data, dataset):
+def path (data, dataset):
 	
