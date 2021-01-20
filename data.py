@@ -1,7 +1,7 @@
 # routines for reading and writing data using atlas
 
-import utils
-import core
+from atlas import utils
+from atlas import core
 
 ## returns the path for data in a dataset
 def path (data, dataset):
